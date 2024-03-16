@@ -1,7 +1,7 @@
 # Temp files, history bin files and configuration file
 trash/*
 data/hist/*
-config.py
+config.ini
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
