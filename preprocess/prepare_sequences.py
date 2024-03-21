@@ -6,7 +6,7 @@ import pickle
 import warnings
 warnings.filterwarnings('ignore')
 
-seq_len = 12
+seq_len = 6
 
 data = pd.read_csv('data/processed/csv/input.csv')
 data['Date'] = pd.to_datetime(data['Date'])
@@ -28,13 +28,14 @@ data['t'] = np.arange(len(data))
 test_end_date = max(data.index)
 test_start_date = test_end_date - timedelta(days = 730)
 
-train_data: pd.DataFrame = data.loc[:test_start_date, ]
+train_data: pd.DataFrame = data.loc[pd.Timestamp(year=2016, month=7, day=1):test_start_date,]
 test_data: pd.DataFrame = data.loc[test_start_date:test_end_date,]
 
 train_data.set_index('t', inplace=True)
 test_data.set_index('t', inplace=True)
 
 test_data.reset_index(drop=True,inplace=True)
+train_data.reset_index(drop=True,inplace=True)
 
 train_data['Adj Close'] = get_log_returns(train_data['Adj Close'])
 train_data['High'] = get_log_returns(train_data['High'])
@@ -84,7 +85,6 @@ X_train = np.array(X_train)
 y_train = np.array(y_train)
 
 rows = len(test_data)
-seq_len = 12
 X_test = []
 y_test = []
 
